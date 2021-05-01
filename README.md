@@ -1,71 +1,70 @@
-# Getting Started with Create React App
+# Realtime & Chat
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Project membuat website chating seperti aplikasi telegram yang dapat diguanakan untuk personal chating secara realtime. 
 
-## Available Scripts
+### Dependencies
+- [react](https://www.npmjs.com/package/react)
+- [socket.io-client](https://www.npmjs.com/package/socket.io-client)
+- [Axios](https://www.npmjs.com/package/axios)
+- [bootstrap](https://www.npmjs.com/package/bootstrap)
+- [formik](https://www.npmjs.com/package/formik)
+- [yup](https://www.npmjs.com/package/yup)
+- [sweetalert2](https://www.npmjs.com/package/sweetalert2)
+- [react-router-dom](https://www.npmjs.com/package/react-router-dom)
+- [redux](https://www.npmjs.com/package/redux)
+- [react-redux](https://www.npmjs.com/package/react-redux)
+- [redux-logger](https://www.npmjs.com/package/redux-logger)
+- [redux-thunk](https://www.npmjs.com/search?q=redux-thunk)
 
-In the project directory, you can run:
+---
 
-### `yarn start`
+## Project setup
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Silahkan buka terminal pada VScode dengan cara tekan tombol
+```
+CTRL + ` 
+atau
+CTRL + SHIFT + C
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Kemudian lakukan install npm terlebih dahulu dengan membuat perintah seperti berikut
+```
+npm install atau npm i
+```
 
-### `yarn test`
+- Jika sudah, maka untuk menjalankan silahkan ketikan perintah berikut ini
+```
+npm run start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Compiles and minifies for production
+```
+npm run build
+```
 
-### `yarn build`
+### Lints and fixes files
+```
+npm run lint
+```
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Hasil Web Chating
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Register
+![capture1](https://user-images.githubusercontent.com/43200304/110453798-2885c700-80f9-11eb-8101-dfdc264d8e76.PNG)
 
-### `yarn eject`
+### Personal Chating
+![Capture3](https://user-images.githubusercontent.com/43200304/110453802-2a4f8a80-80f9-11eb-92cd-9dcc9f11da13.PNG)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Edit Profile
+![Capture5](https://user-images.githubusercontent.com/43200304/110453806-2b80b780-80f9-11eb-9434-93df21c169ea.PNG)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Backend
+Silahkan klik link berikut [ini](https://github.com/nevalenaginda/backend-react-chat)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Deploy
+Hasil dari project ini dapat dilihat [disini](https://github.com/nevalenaginda/frontend-react-chat)
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# frontend-react-chat

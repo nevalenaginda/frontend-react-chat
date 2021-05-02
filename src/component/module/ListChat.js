@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import defaultUser from "../../assets/images/default-user.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { getListChat } from "../../configs/redux/action/socket";
 
-function ListChat({ onClick, dataTarget }) {
+function ListChat({ onClick, dataTarget, lastChat }) {
   const dispatch = useDispatch();
   const { socket, target, listChat } = useSelector((state) => state.socket);
   const { user } = useSelector((state) => state.user);
+  // const [lastChat, setLastChat] = useState([]);
 
   const Url = process.env.REACT_APP_API_URL;
 
@@ -18,6 +19,22 @@ function ListChat({ onClick, dataTarget }) {
     };
     dispatch(getListChat(socket, data));
   }, [dispatch, target.id]);
+
+  // useEffect(() => {
+  //   if (user.id & dataTarget.id) {
+  //     const data = {
+  //       senderId: user.id,
+  //       targetId: dataTarget.id,
+  //       roomId: user.roomId,
+  //     };
+
+  //     socket.emit("get-last-chat", data);
+  //     socket.on("res-get-last-chat", (response) => {
+  //       setLastChat(response);
+  //       console.log("response last chat", response);
+  //     });
+  //   }
+  // }, [dataTarget.id]);
 
   return (
     <div className="container py-2 pointer list-chat" onClick={onClick}>
@@ -52,14 +69,14 @@ function ListChat({ onClick, dataTarget }) {
                   <small>16:13</small>
                 </p> */}
               </div>
-              {/* <div
-                className="d-flex justify-content-between"
-              >
-                Hello
-                <div className="align-self-center">
-                  <span className="badge badge-pill btn-blue d-flex">1</span>
+              {/* {lastChat && (
+                <div className="d-flex justify-content-between">
+                  {lastChat.message}
+                  <div className="align-self-center">
+                    <span className="badge badge-pill btn-blue d-flex">1</span>
+                  </div>
                 </div>
-              </div> */}
+              )} */}
             </div>
           </div>
         </div>

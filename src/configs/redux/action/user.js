@@ -12,6 +12,7 @@ export const login = (data) => (dispatch) => {
         dispatch({ type: "LOGIN", payload: res.data.data });
         localStorage.setItem("token", res.data.data.token);
         localStorage.setItem("id", res.data.data.id);
+        localStorage.setItem("roomId", res.data.data.roomId);
         resolve(res);
       })
       .catch((err) => {
@@ -24,6 +25,7 @@ export const login = (data) => (dispatch) => {
 export const logout = (socket, history) => (dispatch) => {
   localStorage.removeItem("token");
   localStorage.removeItem("id");
+  localStorage.removeItem("roomId");
   socket.emit("disconnected");
   history.push("/");
 };

@@ -18,6 +18,8 @@ function Chat() {
   const dispatch = useDispatch();
   const { socket, userList, target } = useSelector((state) => state.socket);
   const { user, showRoomChatMobile } = useSelector((state) => state.user);
+  const [searchUser, setSearchUser] = useState("");
+  // const [dataLastChat, setLastChat] = useState([]);
 
   const [showRoomChat, setShowRoomChat] = useState(false);
   let queryRole = query.get("role");
@@ -31,7 +33,7 @@ function Chat() {
 
   const handleLogout = (e) => {
     Swal.fire({
-      title: "Delete Chat",
+      title: "Logout",
       text: "Area you sure?",
       icon: "warning",
       showCancelButton: true,
@@ -52,6 +54,16 @@ function Chat() {
     dispatch({ type: "CHOOSE_TARGET", payload: userList[index] });
     dispatch({ type: "SHOW_ROOMCHAT_MOBILE" });
   };
+  // const getLastChat = (data) => {
+  //   socket.emit("get-last-chat", {
+  //     senderId: user.id,
+  //     targetId: data.id,
+  //     roomId: user.roomId,
+  //   });
+  //   socket.on("res-get-last-chat", (response) => {
+  //     setLastChat(dataLastChat.concat(response));
+  //   });
+  // };
 
   useEffect(() => {
     if (socket && user.id) {
@@ -70,12 +82,12 @@ function Chat() {
     if (socket && user.id && userList) {
       const data = {
         id: user.id,
-        searchName: "",
+        searchName: searchUser,
         roomId: user.roomId,
       };
       dispatch(getAllUser(socket, data));
     }
-  }, [socket, user, target.id, dispatch]);
+  }, [socket, user, target.id, dispatch, searchUser]);
 
   useEffect(() => {
     if (socket) {
@@ -93,6 +105,21 @@ function Chat() {
       });
     }
   }, [socket]);
+
+  // useEffect(() => {
+  //   if (userList.length > 0) {
+  //     userList.map((data, index) => {
+  //       socket.emit("get-last-chat", {
+  //         senderId: user.id,
+  //         targetId: data.id,
+  //         roomId: user.roomId,
+  //       });
+  //       socket.on("res-get-last-chat", (response) => {
+  //         setLastChat(dataLastChat.concat(response));
+  //       });
+  //     });
+  //   }
+  // }, []);
 
   return (
     <div className="h-100vh">
@@ -183,6 +210,7 @@ function Chat() {
                           type="text"
                           className="form-control bg-light border-0"
                           placeholder="Search"
+                          onKeyUp={(e) => setSearchUser(e.target.value)}
                         />
                       </div>
                     </span>
@@ -223,6 +251,7 @@ function Chat() {
                         <div className="div-untuk-perulangan">
                           <ListChat
                             dataTarget={data}
+                            // lastChat={dataLastChat[index]}
                             onClick={(e) => handleClickListChat(index)}
                           />
                         </div>
@@ -234,9 +263,11 @@ function Chat() {
                     <div className="align-self-center">
                       <div className="align-self-center">
                         <div className="text-decoration-none">
-                          <h3 className="text-blue">Feel lonely?</h3>
-                          <p className="text-muted">
-                            Start chat with your contact
+                          <h3 className="text-blue text-center">
+                            User not found
+                          </h3>
+                          <p className="text-muted text-center">
+                            Start chat with other contact
                           </p>
                         </div>
                       </div>

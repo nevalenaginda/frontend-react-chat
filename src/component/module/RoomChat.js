@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sendChat, getListChat } from "../../configs/redux/action/socket";
+import ProfileFriends from "./ProfileFriends";
+import Swal from "sweetalert2";
 import defaultUser from "../../assets/images/default-user.svg";
 
-function RoomChat({ showRoomChat, queryRole, dataTarget }) {
+function RoomChat({ showRoomChat, queryRole }) {
   const dispatch = useDispatch();
   const bottomRef = useRef();
 
   const { socket, target, listChat } = useSelector((state) => state.socket);
-  const { user } = useSelector((state) => state.user);
+  const { user, showRoomChatMobile } = useSelector((state) => state.user);
   const [message, setMessage] = useState("");
   const Url = process.env.REACT_APP_API_URL;
 
@@ -24,6 +26,37 @@ function RoomChat({ showRoomChat, queryRole, dataTarget }) {
     setMessage("");
   };
 
+  const handleDeleteChat = (e, item) => {
+    e.preventDefault();
+    const data = {
+      senderId: user.id,
+      targetId: target.id,
+      msg: item.message,
+      id: item.id,
+    };
+    Swal.fire({
+      title: "Delete Chat",
+      text: "Area you sure?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#7E98DF",
+      confirmButtonText: "Confirm",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.value) {
+        socket.emit("delete-chat", data);
+        socket.on("res-delete-chat", (response) => {
+          Swal.fire({
+            icon: "success",
+            title: response,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        });
+      }
+    });
+  };
+
   useEffect(() => {
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({
@@ -37,10 +70,10 @@ function RoomChat({ showRoomChat, queryRole, dataTarget }) {
   return (
     <div
       className={`col overflow-auto h-100 ${
-        queryRole === "friendProfile" ? "d-none d-lg-block" : ""
+        showRoomChatMobile ? "" : "d-none  d-lg-block"
       }`}
     >
-      {showRoomChat ? (
+      {showRoomChat && target.id !== 0 ? (
         <div>
           {/* <roomChat
           /> */}
@@ -51,41 +84,52 @@ function RoomChat({ showRoomChat, queryRole, dataTarget }) {
                   <div className="container">
                     <div className="row">
                       <div className="d-lg-none col-1 d-flex">
-                        <div className="align-self-center">
+                        <div
+                          className="align-self-center pointer"
+                          onClick={(e) =>
+                            dispatch({ type: "CLOSE_ROOMCHAT_MOBILE" })
+                          }
+                        >
                           <h4 className="text-blue m-0 fas fa-chevron-left"></h4>
                         </div>
                       </div>
                       <div className="col d-flex">
                         <div className="mr-3">
-                          {dataTarget.image ? (
+                          {target.image ? (
                             <img
-                              src={`${Url}/images/${dataTarget.image}`}
+                              src={`${Url}/images/${target.image}`}
                               className="cover"
+                              alt="/"
                             />
                           ) : (
                             <img src={defaultUser} className="cover" />
                           )}
                         </div>
-                        <div>
+                        <div
+                          className="pointer"
+                          onClick={(e) =>
+                            dispatch({ type: "SHOW_FRIENDS_PROFILE" })
+                          }
+                        >
                           <div className="text-dark text-decoration-none">
                             <span>
-                              {dataTarget.name && (
+                              {target.name && (
                                 <h4
                                   className="m-0 d-md-none text-truncate"
                                   style={{ maxWidth: "150px" }}
                                 >
-                                  {dataTarget.name}
+                                  {target.name}
                                 </h4>
                               )}
-                              {dataTarget.name && (
+                              {target.name && (
                                 <h4 className="m-0 d-none d-md-block ">
-                                  {dataTarget.name}
+                                  {target.name}
                                 </h4>
                               )}
 
                               <p className="m-0">
                                 <small className="text-blue">
-                                  {dataTarget.socketId === null
+                                  {target.socketId === null
                                     ? "Offline"
                                     : "Online"}
                                 </small>
@@ -138,25 +182,38 @@ function RoomChat({ showRoomChat, queryRole, dataTarget }) {
             </div>
 
             <div className="bg-light d-flex align-items-end">
-              <div className="h-content overflow-auto container px-4 py-3">
+              <div className="h-content overflow-auto container px-4 py-3 hideScroll">
                 {listChat.map((item, index) => {
                   if (item.senderName !== user.name) {
                     return (
                       <span className="w-100 h-100" key={index}>
-                        <div className="my-2 text-white bg-blue max-bubble receiveEnd">
-                          <div className="container py-3">
-                            {item.message}
-                            <p className="m-0">
-                              <small>
-                                {new Date(item.created_at).toLocaleTimeString(
-                                  "en-GB",
-                                  {
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                  }
-                                )}
-                              </small>
-                            </p>
+                        <div className="w-100 d-flex justify-content-start">
+                          <div className="d-flex align-items-center mr-2">
+                            <img
+                              className="cover-img-chat"
+                              src={`${Url}/images/${target.image}`}
+                              alt="profile"
+                            />
+                          </div>
+
+                          <div
+                            className="my-2 text-white bg-blue max-bubble receiveEnd pointer"
+                            onClick={(e) => handleDeleteChat(e, item)}
+                          >
+                            <div className="container py-3 text-right">
+                              {item.message}
+                              <p className="m-0">
+                                <small>
+                                  {new Date(item.created_at).toLocaleTimeString(
+                                    "en-GB",
+                                    {
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    }
+                                  )}
+                                </small>
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </span>
@@ -165,7 +222,10 @@ function RoomChat({ showRoomChat, queryRole, dataTarget }) {
                     return (
                       <span className="w-100 h-100" key={index}>
                         <div className="w-100 d-flex justify-content-end">
-                          <div className="my-2 bg-white max-bubble w-100 sendEnd">
+                          <div
+                            className="my-2 bg-white max-bubble sendEnd pointer"
+                            onClick={(e) => handleDeleteChat(e, item)}
+                          >
                             <div className="container py-3 text-right">
                               {item.message}
                               <p className="m-0">
@@ -181,6 +241,13 @@ function RoomChat({ showRoomChat, queryRole, dataTarget }) {
                                 </small>
                               </p>
                             </div>
+                          </div>
+                          <div className="d-flex align-items-center ml-2">
+                            <img
+                              className="cover-img-chat"
+                              src={`${Url}/images/${user.image}`}
+                              alt="profile"
+                            />
                           </div>
                         </div>
                       </span>
@@ -270,9 +337,9 @@ function RoomChat({ showRoomChat, queryRole, dataTarget }) {
           {/* dini akhir taruh room chatnya */}
         </div>
       ) : (
-        <div className="h-100 d-flex justify-content-center">
+        <div className="h-100 d-flex justify-content-center d-md-none d-lg-flex">
           <div className="align-self-center">
-            <h4 className="text-muted">
+            <h4 className="text-muted text-center">
               Please select a chat to start messaging
             </h4>
           </div>

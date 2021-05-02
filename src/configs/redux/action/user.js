@@ -24,9 +24,8 @@ export const login = (data) => (dispatch) => {
 export const logout = (socket, history) => (dispatch) => {
   localStorage.removeItem("token");
   localStorage.removeItem("id");
-  socket.emit("disconnected", null);
+  socket.emit("disconnected");
   history.push("/");
-  dispatch({ type: "LOGOUT" });
 };
 
 export const getProfile = () => (dispatch) => {
@@ -45,17 +44,17 @@ export const getProfile = () => (dispatch) => {
   });
 };
 
-export const update = (data) => (dispatch) => {
+export const updateProfile = (data) => (dispatch) => {
   return new Promise((resolve, reject) => {
     const Url = process.env.REACT_APP_API_URL;
     const id = localStorage.getItem("id");
     axiosApiInstance
-      .put(`${Url}/users/${id}`, data)
+      .patch(`${Url}/api/user/${id}`, data)
       .then((res) => {
-        resolve(res.data.message);
+        resolve(res);
       })
       .catch((err) => {
-        reject(new Error(err.response.data.message));
+        reject(err);
       });
   });
 };

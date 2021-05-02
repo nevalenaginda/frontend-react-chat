@@ -48,19 +48,18 @@ function ListChat({ onClick, dataTarget }) {
                     {dataTarget.name}
                   </h5>
                 )}
-                <p className="pl-3 m-0 text-muted">
+                {/* <p className="pl-3 m-0 text-muted">
                   <small>16:13</small>
-                </p>
+                </p> */}
               </div>
-              <div
+              {/* <div
                 className="d-flex justify-content-between"
-                v-if="data.lastChat[0]"
               >
                 Hello
                 <div className="align-self-center">
                   <span className="badge badge-pill btn-blue d-flex">1</span>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

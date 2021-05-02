@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
-import { ListChat, DetailProfile, RoomChat } from "../component/module";
+import {
+  ListChat,
+  DetailProfile,
+  RoomChat,
+  ProfileFriends,
+} from "../component/module";
 import { logout } from "../configs/redux/action/user";
 import { getAllUser } from "../configs/redux/action/socket";
 
@@ -12,7 +17,7 @@ function Chat() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { socket, userList, target } = useSelector((state) => state.socket);
-  const { user } = useSelector((state) => state.user);
+  const { user, showRoomChatMobile } = useSelector((state) => state.user);
 
   const [showRoomChat, setShowRoomChat] = useState(false);
   let queryRole = query.get("role");
@@ -26,23 +31,26 @@ function Chat() {
 
   const handleLogout = (e) => {
     dispatch(logout(socket, history));
+    dispatch({ type: "LOGOUT" });
+    dispatch({ type: "EMPTYCHAT" });
   };
 
   const handleClickListChat = (index) => {
     setShowRoomChat(true);
     dispatch({ type: "CHOOSE_TARGET", payload: userList[index] });
+    dispatch({ type: "SHOW_ROOMCHAT_MOBILE" });
   };
 
   useEffect(() => {
     if (socket && user.id) {
       socket.emit("connected", user);
       socket.emit("join-room", user.roomId);
-      const data = {
-        id: user.id,
-        searchName: "",
-        roomId: user.roomId,
-      };
-      dispatch(getAllUser(socket, data));
+      // const data = {
+      //   id: user.id,
+      //   searchName: "",
+      //   roomId: user.roomId,
+      // };
+      // dispatch(getAllUser(socket, data));
     }
   }, [socket, user, dispatch]);
 
@@ -55,7 +63,7 @@ function Chat() {
       };
       dispatch(getAllUser(socket, data));
     }
-  }, [socket, target.id, dispatch]);
+  }, [socket, user, target.id, dispatch]);
 
   useEffect(() => {
     if (socket) {
@@ -64,7 +72,7 @@ function Chat() {
           toast: true,
           position: "top",
           showConfirmButton: false,
-          timer: 3000,
+          timer: 5000,
           timerProgressBar: true,
         }).fire({
           icon: "info",
@@ -83,8 +91,8 @@ function Chat() {
             <DetailProfile queryRole={queryRole} />
           ) : (
             <div
-              className={`col-xl-3 col-md-5 col-lg-4 border-right ${
-                chatId ? "d-none d-lg-block" : ""
+              className={`col-xl-3 col-md col-lg-4 border-right ${
+                showRoomChatMobile ? "d-none d-lg-block" : ""
               }`}
             >
               <div className="container py-3 h-200px">
@@ -226,11 +234,8 @@ function Chat() {
               </div>
             </div>
           )}
-          <RoomChat
-            showRoomChat={showRoomChat}
-            queryRole={queryRole}
-            dataTarget={target}
-          />
+          <RoomChat showRoomChat={showRoomChat} queryRole={queryRole} />
+          <ProfileFriends />
         </div>
       </div>
     </div>

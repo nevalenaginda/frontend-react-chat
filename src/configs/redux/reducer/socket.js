@@ -14,7 +14,7 @@ const initialState = {
 
 const socketReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "LOGOUT":
+    case "EMPTYCHAT":
       return {
         ...state,
         userList: [],

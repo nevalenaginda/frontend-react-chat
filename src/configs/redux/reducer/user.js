@@ -2,6 +2,8 @@ const initialState = {
   user: {},
   loading: false,
   error: "",
+  showFriendsProfile: false,
+  showRoomChatMobile: false,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -10,6 +12,30 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+      };
+
+    case "SHOW_FRIENDS_PROFILE":
+      return {
+        ...state,
+        showFriendsProfile: true,
+      };
+
+    case "CLOSE_FRIENDS_PROFILE":
+      return {
+        ...state,
+        showFriendsProfile: false,
+      };
+
+    case "SHOW_ROOMCHAT_MOBILE":
+      return {
+        ...state,
+        showRoomChatMobile: true,
+      };
+
+    case "CLOSE_ROOMCHAT_MOBILE":
+      return {
+        ...state,
+        showRoomChatMobile: false,
       };
 
     case "USER_FAILURE":

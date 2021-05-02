@@ -1,4 +1,5 @@
 import DetailProfile from "./DetailProfile";
 import ListChat from "./ListChat";
 import RoomChat from "./RoomChat";
-export { DetailProfile, ListChat, RoomChat };
+import ProfileFriends from "./ProfileFriends";
+export { DetailProfile, ListChat, RoomChat, ProfileFriends };

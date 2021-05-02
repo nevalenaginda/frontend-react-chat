@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sendChat, getListChat } from "../../configs/redux/action/socket";
-import ProfileFriends from "./ProfileFriends";
 import Swal from "sweetalert2";
 import defaultUser from "../../assets/images/default-user.svg";
 
@@ -10,7 +9,9 @@ function RoomChat({ showRoomChat, queryRole }) {
   const bottomRef = useRef();
 
   const { socket, target, listChat } = useSelector((state) => state.socket);
-  const { user, showRoomChatMobile } = useSelector((state) => state.user);
+  const { user, showRoomChatMobile, showFriendsProfile } = useSelector(
+    (state) => state.user
+  );
   const [message, setMessage] = useState("");
   const Url = process.env.REACT_APP_API_URL;
 
@@ -71,7 +72,7 @@ function RoomChat({ showRoomChat, queryRole }) {
     <div
       className={`col overflow-auto h-100 ${
         showRoomChatMobile ? "" : "d-none  d-lg-block"
-      }`}
+      } ${showFriendsProfile ? "d-none d-lg-block" : ""}`}
     >
       {showRoomChat && target.id !== 0 ? (
         <div>

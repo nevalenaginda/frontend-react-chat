@@ -30,9 +30,21 @@ function Chat() {
   };
 
   const handleLogout = (e) => {
-    dispatch(logout(socket, history));
-    dispatch({ type: "LOGOUT" });
-    dispatch({ type: "EMPTYCHAT" });
+    Swal.fire({
+      title: "Delete Chat",
+      text: "Area you sure?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#7E98DF",
+      confirmButtonText: "Confirm",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.value) {
+        dispatch(logout(socket, history));
+        dispatch({ type: "LOGOUT" });
+        dispatch({ type: "EMPTYCHAT" });
+      }
+    });
   };
 
   const handleClickListChat = (index) => {

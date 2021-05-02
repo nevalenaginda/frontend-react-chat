@@ -108,7 +108,7 @@ function Login() {
                     <hr />
                   </div>
                   <div className="col d-flex justify-content-center">
-                    <span className="align-self-center text-gray">
+                    <span className="align-self-center text-gray text-center">
                       {" "}
                       Login With{" "}
                     </span>

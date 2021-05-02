@@ -24,7 +24,9 @@ function ProfileFriends() {
 
   return (
     <div
-      className={`col-3 h-100  ${showFriendsProfile ? "d-block" : "d-none"}`}
+      className={`px-0 px-md-5 col col-md-12 col-lg-4 h-100 border  ${
+        showFriendsProfile ? "d-lg-block" : "d-none"
+      }`}
       style={{ height: "100vh" }}
     >
       {/* v-if="friendsData.username !== undefined" */}
@@ -38,7 +40,7 @@ function ProfileFriends() {
               className="d-inline-block text-main float-left text-right h-100 pointer"
               onClick={(e) => dispatch({ type: "CLOSE_FRIENDS_PROFILE" })}
             >
-              <i className="fas fa-angle-right"></i>
+              <i className="fas fa-angle-left"></i>
             </h4>
           </div>
 
@@ -84,8 +86,8 @@ function ProfileFriends() {
           </div>
 
           <div
-            style={{ height: "35vh", overflowY: "scroll" }}
-            className="hideScroll"
+            style={{ height: "40vh", overflowY: "scroll" }}
+            className="hideScroll "
           >
             {clickedType === "location" ? (
               <div className="row">
@@ -97,7 +99,7 @@ function ProfileFriends() {
               </div>
             ) : clickedType === "image" ? (
               <div>
-                <div className="row">
+                <div className="row text-center w-100">
                   {Array(dummyImage)
                     .fill()
                     .map((item, index) => {
@@ -105,7 +107,7 @@ function ProfileFriends() {
                         <div key={index} className="col-md-4 col-lg-4 col-4">
                           <img
                             src={`${Url}/images/sampleImg_${index}.png`}
-                            className="img-fluid px-1 py-1"
+                            className="img-fluid  mx-1 my-1"
                             alt="/"
                           />
                         </div>

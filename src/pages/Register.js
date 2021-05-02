@@ -176,7 +176,7 @@ function Register() {
                     <hr />
                   </div>
                   <div className="col d-flex justify-content-center">
-                    <span className="align-self-center text-gray">
+                    <span className="align-self-center text-gray text-center">
                       Register With
                     </span>
                   </div>

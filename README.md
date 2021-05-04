@@ -66,5 +66,5 @@ npm run lint
 Silahkan klik link berikut [ini](https://github.com/nevalenaginda/backend-react-chat)
 
 ## Deploy
-Hasil dari project ini dapat dilihat [disini](https://github.com/nevalenaginda/frontend-react-chat)
+Hasil dari project ini dapat dilihat [disini](http://100.25.29.134:5010/)
 

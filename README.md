@@ -52,13 +52,13 @@ npm run lint
 ## Hasil Web Chating
 
 ### Register
-![capture1](https://user-images.githubusercontent.com/43200304/110453798-2885c700-80f9-11eb-8101-dfdc264d8e76.PNG)
+![capture1](https://github.com/nevalenaginda/frontend-react-chat/blob/main/Screen%20Shots/screencapture-localhost-3000-register-2021-05-04-10_08_49.png)
 
 ### Personal Chating
-![Capture3](https://user-images.githubusercontent.com/43200304/110453802-2a4f8a80-80f9-11eb-92cd-9dcc9f11da13.PNG)
+![Capture3](https://github.com/nevalenaginda/frontend-react-chat/blob/main/Screen%20Shots/screencapture-localhost-3000-chat-2021-05-04-15_54_54.png)
 
 ### Edit Profile
-![Capture5](https://user-images.githubusercontent.com/43200304/110453806-2b80b780-80f9-11eb-9434-93df21c169ea.PNG)
+![Capture5](https://github.com/nevalenaginda/frontend-react-chat/blob/main/Screen%20Shots/screencapture-localhost-3000-chat-2021-05-04-15_57_04.png)
 
 ---
 

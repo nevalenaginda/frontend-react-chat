@@ -2,30 +2,40 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import {
   ListChat,
   DetailProfile,
   RoomChat,
   ProfileFriends,
 } from "../component/module";
-import { logout } from "../configs/redux/action/user";
-import { getAllUser } from "../configs/redux/action/socket";
+
+import { getListMessages } from "../configs/redux/action/socket";
+import {
+  logout,
+  getAllUser,
+  searchUsers,
+  getDetailFriends,
+} from "../configs/redux/action/user";
+
+toast.configure();
 
 function Chat() {
   const useQuery = () => new URLSearchParams(useLocation().search);
+
   const query = useQuery();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { socket, userList, target } = useSelector((state) => state.socket);
+  const { socket } = useSelector((state) => state.socket);
+  const { allUser } = useSelector((state) => state.friends);
   const { user, showRoomChatMobile } = useSelector((state) => state.user);
-  const [searchUser, setSearchUser] = useState("");
-  // const [dataLastChat, setLastChat] = useState([]);
+  const [searchUserData, setSearchUser] = useState(null);
+  const [idReceiver, setIdReceiver] = useState(null);
 
   const [showRoomChat, setShowRoomChat] = useState(false);
   let queryRole = query.get("role");
-  // let { chatId } = useParams();
-  let chatId = query.get("chatId");
-  // console.log(chatId);
 
   const goSetting = (e) => {
     history.push("/chat?role=setting");
@@ -45,84 +55,96 @@ function Chat() {
         dispatch(logout(socket, history));
         dispatch({ type: "LOGOUT" });
         dispatch({ type: "EMPTYCHAT" });
+        dispatch({ type: "EMPTY_FRIENDS" });
       }
     });
   };
 
-  const handleClickListChat = (index) => {
+  const handleClickListChat = (data) => {
     setShowRoomChat(true);
-    dispatch({ type: "CHOOSE_TARGET", payload: userList[index] });
+    localStorage.setItem("idTarget", data);
+    setIdReceiver(data);
+    dispatch({ type: "GET_LIST_CHAT", payload: [] });
+    dispatch(getListMessages(data));
     dispatch({ type: "SHOW_ROOMCHAT_MOBILE" });
   };
-  // const getLastChat = (data) => {
-  //   socket.emit("get-last-chat", {
-  //     senderId: user.id,
-  //     targetId: data.id,
-  //     roomId: user.roomId,
-  //   });
-  //   socket.on("res-get-last-chat", (response) => {
-  //     setLastChat(dataLastChat.concat(response));
-  //   });
-  // };
 
   useEffect(() => {
     if (socket && user.id) {
       socket.emit("connected", user);
       socket.emit("join-room", user.roomId);
-      // const data = {
-      //   id: user.id,
-      //   searchName: "",
-      //   roomId: user.roomId,
-      // };
-      // dispatch(getAllUser(socket, data));
+      localStorage.setItem("idTarget", 0);
     }
   }, [socket, user, dispatch]);
 
   useEffect(() => {
-    if (socket && user.id && userList) {
-      const data = {
-        id: user.id,
-        searchName: searchUser,
-        roomId: user.roomId,
-      };
-      dispatch(getAllUser(socket, data));
+    if (socket) {
+      socket.on("receiverMessage", (data) => {
+        dispatch({ type: "GET_LIST_MESSAGES", payload: data });
+        const lastmessage = data[data.length - 1];
+        dispatch({ type: "GET_LAST_MESSAGES", payload: lastmessage });
+      });
     }
-  }, [socket, user, target.id, dispatch, searchUser]);
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    dispatch(getAllUser());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (searchUserData) {
+      dispatch(searchUsers(searchUserData));
+    }
+  }, [dispatch, searchUserData]);
+
+  useEffect(() => {
+    if (idReceiver) {
+      dispatch(getAllUser());
+      dispatch(getDetailFriends(idReceiver));
+    }
+  }, [dispatch, idReceiver]);
 
   useEffect(() => {
     if (socket) {
+      const idTarget = localStorage.getItem("idTarget");
+      socket.off("res-new-chat");
+
       socket.on("res-new-chat", (response) => {
-        Swal.mixin({
-          toast: true,
-          position: "top",
-          showConfirmButton: false,
-          timer: 5000,
-          timerProgressBar: true,
-        }).fire({
-          icon: "info",
-          title: `${response.from}: ${response.message}`,
-        });
+        if (response.fromId !== Number(idTarget)) {
+          console.log(response.fromId, "=", idTarget);
+          const notify = () => {
+            toast(`${response.from}: ${response.message}`, {
+              position: "top-right",
+              autoClose: 3000,
+
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          };
+          notify();
+        }
       });
     }
-  }, [socket]);
-
-  // useEffect(() => {
-  //   if (userList.length > 0) {
-  //     userList.map((data, index) => {
-  //       socket.emit("get-last-chat", {
-  //         senderId: user.id,
-  //         targetId: data.id,
-  //         roomId: user.roomId,
-  //       });
-  //       socket.on("res-get-last-chat", (response) => {
-  //         setLastChat(dataLastChat.concat(response));
-  //       });
-  //     });
-  //   }
-  // }, []);
+  }, [socket, idReceiver]);
 
   return (
     <div className="h-100vh">
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        limit={3}
+        newestOnTop
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="h-100">
         <div className="row no-gutters h-100 justify-content-end">
           {/* start condition from here */}
@@ -244,15 +266,15 @@ function Chat() {
                 </div>
               </div>
               <div className="overflow-auto h-remaining-header w-100">
-                {userList.length > 0 ? (
-                  userList.map((data, index) => {
+                {allUser.length > 0 ? (
+                  allUser.map((data, index) => {
                     return (
                       <span key={index}>
                         <div className="div-untuk-perulangan">
                           <ListChat
                             dataTarget={data}
                             // lastChat={dataLastChat[index]}
-                            onClick={(e) => handleClickListChat(index)}
+                            onClick={(e) => handleClickListChat(data.id)}
                           />
                         </div>
                       </span>

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 function ProfileFriends() {
   const dispatch = useDispatch();
-  const { target } = useSelector((state) => state.socket);
+  const { dataReceiver: target } = useSelector((state) => state.friends);
   const { showFriendsProfile } = useSelector((state) => state.user);
   const [clickedType, setClickedType] = useState("image");
   const [chatDataType, setDataType] = useState([
@@ -30,7 +30,7 @@ function ProfileFriends() {
       style={{ height: "100vh" }}
     >
       {/* v-if="friendsData.username !== undefined" */}
-      {target.username !== undefined ? (
+      {target ? (
         <div className="card-body py-0">
           <div className="text-center pt-4 text-blue" style={{ height: "5vh" }}>
             <h4 className="d-inline-block text-center text-main">

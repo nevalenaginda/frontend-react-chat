@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { sendChat, getListChat } from "../../configs/redux/action/socket";
+import {
+  deleteMessages,
+  getListMessages,
+} from "../../configs/redux/action/socket";
 import Swal from "sweetalert2";
 import defaultUser from "../../assets/images/default-user.svg";
 
@@ -8,33 +11,38 @@ function RoomChat({ showRoomChat, queryRole }) {
   const dispatch = useDispatch();
   const bottomRef = useRef();
 
-  const { socket, target, listChat } = useSelector((state) => state.socket);
+  const { socket } = useSelector((state) => state.socket);
+  const { dataReceiver: target, listMessages: listChat } = useSelector(
+    (state) => state.friends
+  );
   const { user, showRoomChatMobile, showFriendsProfile } = useSelector(
     (state) => state.user
   );
-  const [message, setMessage] = useState("");
+  const [inputMessage, setMessage] = useState("");
   const Url = process.env.REACT_APP_API_URL;
+  const senderId = localStorage.getItem("id");
+  const targetId = localStorage.getItem("idTarget");
 
   const handleSendChat = (e) => {
     e.preventDefault();
-
-    const data = {
-      senderId: user.id,
-      targetId: target.id,
-      msg: message,
-    };
-    dispatch(sendChat(socket, data));
-    setMessage("");
+    if (inputMessage !== "") {
+      socket.emit(
+        "sendMessage",
+        {
+          message: inputMessage,
+          senderId,
+          targetId,
+        },
+        (data) => {
+          dispatch({ type: "GET_LIST_MESSAGES", payload: data });
+          setMessage("");
+        }
+      );
+    }
   };
 
   const handleDeleteChat = (e, item) => {
     e.preventDefault();
-    const data = {
-      senderId: user.id,
-      targetId: target.id,
-      msg: item.message,
-      id: item.id,
-    };
     Swal.fire({
       title: "Delete Chat",
       text: "Area you sure?",
@@ -45,15 +53,24 @@ function RoomChat({ showRoomChat, queryRole }) {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.value) {
-        socket.emit("delete-chat", data);
-        socket.on("res-delete-chat", (response) => {
-          Swal.fire({
-            icon: "success",
-            title: response,
-            showConfirmButton: false,
-            timer: 1500,
+        dispatch(deleteMessages(item.id))
+          .then((res) => {
+            dispatch(getListMessages(targetId));
+            Swal.fire({
+              icon: "success",
+              title: res.data.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "error",
+              title: err.response.data.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
           });
-        });
       }
     });
   };
@@ -66,7 +83,7 @@ function RoomChat({ showRoomChat, queryRole }) {
         inline: "end",
       });
     }
-  }, [target.id, listChat]);
+  }, [target, listChat]);
 
   return (
     <div
@@ -74,7 +91,7 @@ function RoomChat({ showRoomChat, queryRole }) {
         showRoomChatMobile ? "" : "d-none  d-lg-block"
       } ${showFriendsProfile ? "d-none d-lg-block" : ""}`}
     >
-      {showRoomChat && target.id !== 0 ? (
+      {showRoomChat && target ? (
         <div>
           {/* <roomChat
           /> */}
@@ -184,77 +201,65 @@ function RoomChat({ showRoomChat, queryRole }) {
 
             <div className="bg-light d-flex align-items-end">
               <div className="h-content overflow-auto container px-4 py-3 hideScroll">
-                {listChat.map((item, index) => {
-                  if (item.senderName !== user.name) {
-                    return (
-                      <span className="w-100 h-100" key={index}>
-                        <div className="w-100 d-flex justify-content-start">
-                          <div className="d-flex align-items-center mr-2">
-                            <img
-                              className="cover-img-chat"
-                              src={`${Url}/images/${target.image}`}
-                              alt="profile"
-                            />
-                          </div>
+                {listChat.map((item, index) =>
+                  item.senderId === Number(senderId) &&
+                  item.type === "receive" &&
+                  item.targetId === Number(targetId) ? (
+                    <span className="w-100 h-100" key={index}>
+                      <div className="w-100 d-flex justify-content-start">
+                        <div className="d-flex align-items-center mr-2">
+                          <img
+                            className="cover-img-chat"
+                            src={`${Url}/images/${target.image}`}
+                            alt="profile"
+                          />
+                        </div>
 
-                          <div
-                            className="my-2 text-white bg-blue max-bubble receiveEnd pointer"
-                            onClick={(e) => handleDeleteChat(e, item)}
-                          >
-                            <div className="container py-3 text-right">
-                              {item.message}
-                              <p className="m-0">
-                                <small>
-                                  {new Date(item.created_at).toLocaleTimeString(
-                                    "en-GB",
-                                    {
-                                      hour: "2-digit",
-                                      minute: "2-digit",
-                                    }
-                                  )}
-                                </small>
-                              </p>
-                            </div>
+                        <div
+                          className="my-2 text-white bg-blue max-bubble receiveEnd pointer"
+                          onClick={(e) => handleDeleteChat(e, item)}
+                        >
+                          <div className="container py-3 text-right">
+                            {item.message}
+                            <p className="m-0">
+                              <small>{item.time}</small>
+                            </p>
                           </div>
                         </div>
-                      </span>
-                    );
-                  } else {
-                    return (
-                      <span className="w-100 h-100" key={index}>
-                        <div className="w-100 d-flex justify-content-end">
-                          <div
-                            className="my-2 bg-white max-bubble sendEnd pointer"
-                            onClick={(e) => handleDeleteChat(e, item)}
-                          >
-                            <div className="container py-3 text-right">
-                              {item.message}
-                              <p className="m-0">
-                                <small className="text-muted">
-                                  {new Date(item.created_at).toLocaleTimeString(
-                                    "en-GB",
-                                    {
-                                      hour: "2-digit",
-                                      minute: "2-digit",
-                                    }
-                                  )}
-                                  <i className="fas fa-check-double"></i>
-                                </small>
-                              </p>
-                            </div>
-                          </div>
-                          <div className="d-flex align-items-center ml-2">
-                            <img
-                              className="cover-img-chat"
-                              src={`${Url}/images/${user.image}`}
-                              alt="profile"
-                            />
+                      </div>
+                    </span>
+                  ) : item.senderId === Number(senderId) &&
+                    item.type === "send" &&
+                    item.targetId === Number(targetId) ? (
+                    <span className="w-100 h-100" key={index}>
+                      <div className="w-100 d-flex justify-content-end">
+                        <div
+                          className="my-2 bg-white max-bubble sendEnd pointer"
+                          onClick={(e) => handleDeleteChat(e, item)}
+                        >
+                          <div className="container py-3 text-right">
+                            {item.message}
+                            <p className="m-0">
+                              <small className="text-muted">
+                                {item.time}
+                                <i className="fas fa-check-double"></i>
+                              </small>
+                            </p>
                           </div>
                         </div>
-                      </span>
-                    );
-                  }
-                })}
+                        <div className="d-flex align-items-center ml-2">
+                          <img
+                            className="cover-img-chat"
+                            src={`${Url}/images/${user.image}`}
+                            alt="profile"
+                          />
+                        </div>
+                      </div>
+                    </span>
+                  ) : (
+                    ""
+                  )
+                )}
                 <div ref={bottomRef}></div>
               </div>
             </div>
@@ -268,7 +273,7 @@ function RoomChat({ showRoomChat, queryRole }) {
                         type="text"
                         placeholder="Type your message..."
                         className="form-control border-0 bg-light br-left-30px"
-                        value={message}
+                        value={inputMessage}
                         onChange={(e) => setMessage(e.target.value)}
                       />
                       <div className="input-group-append">

@@ -1,40 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import defaultUser from "../../assets/images/default-user.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { getListChat } from "../../configs/redux/action/socket";
+import { useSelector } from "react-redux";
 
 function ListChat({ onClick, dataTarget, lastChat }) {
-  const dispatch = useDispatch();
-  const { socket, target, listChat } = useSelector((state) => state.socket);
-  const { user } = useSelector((state) => state.user);
-  // const [lastChat, setLastChat] = useState([]);
+  const { lastMessage } = useSelector((state) => state.friends);
 
   const Url = process.env.REACT_APP_API_URL;
-
-  useEffect(() => {
-    const data = {
-      senderId: user.id,
-      targetId: target.id,
-      roomId: user.roomId,
-    };
-    dispatch(getListChat(socket, data));
-  }, [dispatch, target.id]);
-
-  // useEffect(() => {
-  //   if (user.id & dataTarget.id) {
-  //     const data = {
-  //       senderId: user.id,
-  //       targetId: dataTarget.id,
-  //       roomId: user.roomId,
-  //     };
-
-  //     socket.emit("get-last-chat", data);
-  //     socket.on("res-get-last-chat", (response) => {
-  //       setLastChat(response);
-  //       console.log("response last chat", response);
-  //     });
-  //   }
-  // }, [dataTarget.id]);
 
   return (
     <div className="container py-2 pointer list-chat" onClick={onClick}>
@@ -65,18 +36,24 @@ function ListChat({ onClick, dataTarget, lastChat }) {
                     {dataTarget.name}
                   </h5>
                 )}
-                {/* <p className="pl-3 m-0 text-muted">
-                  <small>16:13</small>
-                </p> */}
+                <p className="pl-3 m-0 text-muted">
+                  {lastMessage && (
+                    <small>
+                      {dataTarget.id === lastMessage.targetId
+                        ? lastMessage.time
+                        : ""}
+                    </small>
+                  )}{" "}
+                </p>
               </div>
-              {/* {lastChat && (
+
+              {lastMessage && (
                 <div className="d-flex justify-content-between">
-                  {lastChat.message}
-                  <div className="align-self-center">
-                    <span className="badge badge-pill btn-blue d-flex">1</span>
-                  </div>
+                  {dataTarget.id === lastMessage.targetId
+                    ? lastMessage.message
+                    : ""}
                 </div>
-              )} */}
+              )}
             </div>
           </div>
         </div>

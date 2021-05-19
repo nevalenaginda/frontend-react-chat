@@ -62,7 +62,7 @@ $ https://github.com/nevalenaginda/frontend-react-chat.git
 2. Open this project.
 
 ```
-$ cd telegram-app
+$ cd frontend-react-chat
 $ npm install
 ```
 

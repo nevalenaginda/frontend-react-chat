@@ -83,6 +83,7 @@ $ npm start
 <p align="center">
   <span>
     <img width="500" height="auto" src="https://github.com/nevalenaginda/frontend-react-chat/raw/main/Screen%20Shots/screencapture-localhost-3000-register-2021-05-04-10_08_49.png">   
+    <img width="500" height="auto" src="https://user-images.githubusercontent.com/55057008/118853556-15178900-b8fe-11eb-8a88-357057541d9b.png">
     <img width="500" height="auto" src="https://github.com/nevalenaginda/frontend-react-chat/raw/main/Screen%20Shots/screencapture-localhost-3000-chat-2021-05-04-15_54_54.png">   
     <img width="500" height="auto" src="https://github.com/nevalenaginda/frontend-react-chat/raw/main/Screen%20Shots/screencapture-localhost-3000-chat-2021-05-04-15_57_04.png">   
   </span>

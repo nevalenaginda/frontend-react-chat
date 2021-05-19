@@ -1,8 +1,10 @@
-# Realtime & Chat
+<h1 align="center">Telegram</h1>
+<p align="center">
+  <a href="https://telegram-webku.netlify.app/" target="_blank"><img src="https://github.com/chaerulmarwan20/telegram-app/raw/master/src/assets/screenshots/Telegram.png"  width="400" alt="Telegram" border="0" /></a>
+</p>
 
-Project membuat website chating seperti aplikasi telegram yang dapat diguanakan untuk personal chating secara realtime. 
+## Table of Contents
 
-### Dependencies
 - [react](https://www.npmjs.com/package/react)
 - [socket.io-client](https://www.npmjs.com/package/socket.io-client)
 - [Axios](https://www.npmjs.com/package/axios)
@@ -16,55 +18,77 @@ Project membuat website chating seperti aplikasi telegram yang dapat diguanakan 
 - [redux-logger](https://www.npmjs.com/package/redux-logger)
 - [redux-thunk](https://www.npmjs.com/search?q=redux-thunk)
 
----
 
-## Project setup
+## Introduction
 
-- Silahkan buka terminal pada VScode dengan cara tekan tombol
+Project makes a chat website like a telegram application that can be used for realtime personal chat. This application was built for a week with the main tools namely express, mysql, react, and socket.io.
+
+## Features
+
+- Authentication
+
+- Reset password
+
+- Realtime chatting using socket.io
+
+- Realtime online/offline status using socket.io
+
+- Realtime notification using socket.io
+
+- Upload image profile
+
+- Change profile
+
+## Built With
+
+- [ReactJs](https://reactjs.org/)
+- [Redux](https://redux.js.org/)
+- [Bootstrap](https://getbootstrap.com/)
+- [Socket.io](https://socket.io/)
+
+## Prerequisites
+
+- [NodeJs](https://nodejs.org/en/download/)
+- [Backend Telegram](https://github.com/nevalenaginda/backend-react-chat)
+
+## Installation
+
+1. Open your terminal or command prompt. Then, clone the repo.
+
 ```
-CTRL + ` 
-atau
-CTRL + SHIFT + C
+$ https://github.com/nevalenaginda/frontend-react-chat.git
 ```
 
-- Kemudian lakukan install npm terlebih dahulu dengan membuat perintah seperti berikut
-```
-npm install atau npm i
-```
+2. Open this project.
 
-- Jika sudah, maka untuk menjalankan silahkan ketikan perintah berikut ini
 ```
-npm run start
+$ cd telegram-app
+$ npm install
 ```
 
-### Compiles and minifies for production
+3. Create environment variable.
+
 ```
-npm run build
+$ REACT_APP_API_URL = Your Backend Url Ex: https://chat.naginda.site
 ```
 
-### Lints and fixes files
+4. Run this application.
+
 ```
-npm run lint
+$ npm start
 ```
----
 
+## Screenshots
 
-## Hasil Web Chating
+<p align="center">
+  <span>
+    <img width="400" height="400" src=".https://github.com/nevalenaginda/frontend-react-chat/raw/main/Screen%20Shots/screencapture-localhost-3000-register-2021-05-04-10_08_49.png">   
+    <img width="400" height="400" src="https://github.com/nevalenaginda/frontend-react-chat/raw/main/Screen%20Shots/screencapture-localhost-3000-chat-2021-05-04-15_54_54.png">   
+    <img width="400" height="400" src="https://github.com/nevalenaginda/frontend-react-chat/raw/main/Screen%20Shots/screencapture-localhost-3000-chat-2021-05-04-15_57_04.png">   
+  </span>
+</p>
 
-### Register
-![capture1](https://github.com/nevalenaginda/frontend-react-chat/blob/main/Screen%20Shots/screencapture-localhost-3000-register-2021-05-04-10_08_49.png)
+## Related Project
 
-### Personal Chating
-![Capture3](https://github.com/nevalenaginda/frontend-react-chat/blob/main/Screen%20Shots/screencapture-localhost-3000-chat-2021-05-04-15_54_54.png)
-
-### Edit Profile
-![Capture5](https://github.com/nevalenaginda/frontend-react-chat/blob/main/Screen%20Shots/screencapture-localhost-3000-chat-2021-05-04-15_57_04.png)
-
----
-
-## Backend
-Silahkan klik link berikut [ini](https://github.com/nevalenaginda/backend-react-chat)
-
-## Deploy
-Hasil dari project ini dapat dilihat [disini](http://100.25.29.134:5010/)
-
+- :white_check_mark: [`Backend Telegram`](https://github.com/nevalenaginda/backend-react-chat)
+- :rocket: [`Production`](https://telegram-webku.netlify.app/)

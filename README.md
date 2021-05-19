@@ -82,9 +82,9 @@ $ npm start
 
 <p align="center">
   <span>
-    <img width="400" height="400" src=".https://github.com/nevalenaginda/frontend-react-chat/raw/main/Screen%20Shots/screencapture-localhost-3000-register-2021-05-04-10_08_49.png">   
-    <img width="400" height="400" src="https://github.com/nevalenaginda/frontend-react-chat/raw/main/Screen%20Shots/screencapture-localhost-3000-chat-2021-05-04-15_54_54.png">   
-    <img width="400" height="400" src="https://github.com/nevalenaginda/frontend-react-chat/raw/main/Screen%20Shots/screencapture-localhost-3000-chat-2021-05-04-15_57_04.png">   
+    <img width="600" height="400" src="https://github.com/nevalenaginda/frontend-react-chat/raw/main/Screen%20Shots/screencapture-localhost-3000-register-2021-05-04-10_08_49.png">   
+    <img width="600" height="400" src="https://github.com/nevalenaginda/frontend-react-chat/raw/main/Screen%20Shots/screencapture-localhost-3000-chat-2021-05-04-15_54_54.png">   
+    <img width="600" height="400" src="https://github.com/nevalenaginda/frontend-react-chat/raw/main/Screen%20Shots/screencapture-localhost-3000-chat-2021-05-04-15_57_04.png">   
   </span>
 </p>
 

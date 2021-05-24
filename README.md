@@ -4,19 +4,14 @@
 </p>
 
 ## Table of Contents
+- [Introduction](#introduction)
+- [Features](#features)
+- [Built With](#built-with)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Preview](#preview)
+- [Link](#link)
 
-- [react](https://www.npmjs.com/package/react)
-- [socket.io-client](https://www.npmjs.com/package/socket.io-client)
-- [Axios](https://www.npmjs.com/package/axios)
-- [bootstrap](https://www.npmjs.com/package/bootstrap)
-- [formik](https://www.npmjs.com/package/formik)
-- [yup](https://www.npmjs.com/package/yup)
-- [sweetalert2](https://www.npmjs.com/package/sweetalert2)
-- [react-router-dom](https://www.npmjs.com/package/react-router-dom)
-- [redux](https://www.npmjs.com/package/redux)
-- [react-redux](https://www.npmjs.com/package/react-redux)
-- [redux-logger](https://www.npmjs.com/package/redux-logger)
-- [redux-thunk](https://www.npmjs.com/search?q=redux-thunk)
 
 
 ## Introduction
@@ -41,10 +36,18 @@ Project makes a chat website like a telegram application that can be used for re
 
 ## Built With
 
-- [ReactJs](https://reactjs.org/)
-- [Redux](https://redux.js.org/)
-- [Bootstrap](https://getbootstrap.com/)
-- [Socket.io](https://socket.io/)
+- [react](https://www.npmjs.com/package/react)
+- [socket.io-client](https://www.npmjs.com/package/socket.io-client)
+- [Axios](https://www.npmjs.com/package/axios)
+- [bootstrap](https://www.npmjs.com/package/bootstrap)
+- [formik](https://www.npmjs.com/package/formik)
+- [yup](https://www.npmjs.com/package/yup)
+- [sweetalert2](https://www.npmjs.com/package/sweetalert2)
+- [react-router-dom](https://www.npmjs.com/package/react-router-dom)
+- [redux](https://www.npmjs.com/package/redux)
+- [react-redux](https://www.npmjs.com/package/react-redux)
+- [redux-logger](https://www.npmjs.com/package/redux-logger)
+- [redux-thunk](https://www.npmjs.com/search?q=redux-thunk)
 
 ## Prerequisites
 
@@ -78,7 +81,7 @@ $ REACT_APP_API_URL = Your Backend Url Ex: https://chat.naginda.site
 $ npm start
 ```
 
-## Screenshots
+## Preview
 
 <p align="center">
   <span>

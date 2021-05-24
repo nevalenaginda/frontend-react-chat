@@ -93,7 +93,7 @@ $ npm start
   </span>
 </p>
 
-## Related Project
+## Link
 
 - :white_check_mark: [`Backend Telegram`](https://github.com/nevalenaginda/backend-react-chat)
 - :rocket: [`Production`](https://telegram-webku.netlify.app/)

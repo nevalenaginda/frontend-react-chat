@@ -51,8 +51,12 @@ body {
 }
 
 .border-outline {
-  border: 1px solid #232323 !important;
+  border-bottom: 1px solid #232323 !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
 }
+
 .rounded-btn {
   border-radius: 70px !important;
 }

@@ -158,7 +158,7 @@ function ForgotPassword() {
                     <label className="m-0 text-gray">Email</label>
                     <Input
                       type="email"
-                      className="border-top-0 border-left-0 border-right-0 border-outline"
+                      className="border-outline"
                       name="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -170,7 +170,7 @@ function ForgotPassword() {
                     <label className="m-0 text-gray">New Password</label>
                     <Input
                       type="password"
-                      className="border-top-0 border-left-0 border-right-0 border-outline"
+                      className="border-outline"
                       name="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}

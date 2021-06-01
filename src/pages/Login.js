@@ -50,6 +50,17 @@ function Login() {
       });
   };
 
+  const handleUpComingFeature = (e) => {
+    e.preventDefault();
+    Swal.fire({
+      title: "Info",
+      text: "Upcoming Feature",
+      icon: "info",
+      confirmButtonText: "Ok",
+      confirmButtonColor: "#7E98DF",
+    });
+  };
+
   if (loading) {
     Swal.fire({
       icon: "info",
@@ -74,7 +85,7 @@ function Login() {
                   <label className="m-0 text-gray">Email</label>
                   <Input
                     type="email"
-                    className="border-top-0 border-left-0 border-right-0 border-outline"
+                    className="border-outline"
                     name="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -85,7 +96,7 @@ function Login() {
                   <label className="m-0 text-gray">Password</label>
                   <Input
                     type="password"
-                    className="border-top-0 border-left-0 border-right-0 border-outline"
+                    className="border-outline"
                     name="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -119,7 +130,7 @@ function Login() {
                 </div>
                 <Button
                   className=" btn-lg btn-outline-blue btn-block rounded-btn text-blue"
-                  onClick={handleSubmit}
+                  onClick={handleUpComingFeature}
                 >
                   <i className="fab fa-google"></i> Google
                 </Button>

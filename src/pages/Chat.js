@@ -69,6 +69,13 @@ function Chat() {
     dispatch({ type: "SHOW_ROOMCHAT_MOBILE" });
   };
 
+  const tuncanteString = (str, num) => {
+    if (str.length <= num) {
+      return str;
+    }
+    return str.slice(0, num) + "...";
+  };
+
   useEffect(() => {
     if (socket && user.id) {
       socket.emit("connected", user);

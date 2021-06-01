@@ -124,7 +124,7 @@ function Register() {
                   <label className="m-0 text-gray">Name</label>
                   <Input
                     type="text"
-                    className="border-top-0 border-left-0 border-right-0 border-outline"
+                    className="border-outline"
                     name="name"
                     value={formik.values.name}
                     onChange={formik.handleChange}
@@ -138,7 +138,7 @@ function Register() {
                   <label className="m-0 text-gray">Email</label>
                   <Input
                     type="email"
-                    className="border-top-0 border-left-0 border-right-0 border-outline"
+                    className="border-outline"
                     name="email"
                     value={formik.values.email}
                     onChange={formik.handleChange}
@@ -152,7 +152,7 @@ function Register() {
                   <label className="m-0 text-gray">Password</label>
                   <Input
                     type="password"
-                    className="border-top-0 border-left-0 border-right-0 border-outline"
+                    className="border-outline"
                     name="password"
                     value={formik.values.password}
                     onChange={formik.handleChange}
